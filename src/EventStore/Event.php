@@ -52,14 +52,6 @@ class Event
     }
 
     /**
-     * @return string
-     */
-    public function getType(): string
-    {
-        return $this->type;
-    }
-
-    /**
      * @return array
      */
     public function getData(): array
