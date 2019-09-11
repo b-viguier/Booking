@@ -7,7 +7,7 @@ use DateTimeImmutable;
 
 class RoomAddedToInventory extends Event
 {
-    const eventType = 'RoomAddedToInventory';
+    const eventType = 'room-added-to-inventory';
 
     public function __construct(int $roomId, string $roomType, DateTimeImmutable $dateTime)
     {
