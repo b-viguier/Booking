@@ -7,7 +7,7 @@ use DateTimeImmutable;
 
 class RoomTypePriceChanged extends Event
 {
-    const eventType = 'room-type-price-changed';
+    const eventType = 'priceChanged';
 
     public function __construct(string $roomType, int $price, DateTimeImmutable $dateTime)
     {
