@@ -1,13 +1,14 @@
 FROM composer:latest AS composer
 WORKDIR /code
 COPY composer.json composer.lock symfony.lock ./
-RUN composer install --prefer-dist --no-scripts --no-progress --no-suggest --no-interaction --ignore-platform-reqs
+RUN composer install --prefer-dist --no-scripts --no-progress --no-suggest --no-interaction --ignore-platform-reqs --no-dev
 
 
-FROM php:7-fpm AS fpm
+FROM php:7-apache AS web
 WORKDIR /code
 COPY ./ ./
 COPY --from=composer /code/vendor /code/vendor
+COPY ./apache.conf /etc/apache2/sites-available/000-default.conf
 
 RUN bin/console assets:install
 RUN bin/console cache:warmup

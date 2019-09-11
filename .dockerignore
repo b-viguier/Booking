@@ -9,3 +9,4 @@
 !/.env
 !/composer.*
 !/symfony.lock
+!/apache.conf
