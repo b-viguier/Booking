@@ -9,11 +9,11 @@
         </tr>
         </thead>
         <tbody>
-        {% for type, price in types %}
+        {% for typeData in types %}
             <tr>
                 <form method="POST" action="{{ path('change_type_price') }}">
-                    <td>{{ type }}<input type="hidden" required value="{{ type }}"/></td>
-                    <td><input type="number" name="price" required value="{{ price }}"/></td>
+                    <td>{{ type }}<input type="hidden" required value="{{ typeData.type }}"/></td>
+                    <td><input type="number" name="price" required value="{{ typeData.price }}"/></td>
                     <td>
                         <button type="submit">Changer le prix</button>
                     </td>
