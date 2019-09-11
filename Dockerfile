@@ -10,10 +10,10 @@ COPY ./ ./
 COPY --from=composer /code/vendor /code/vendor
 COPY ./apache.conf /etc/apache2/sites-available/000-default.conf
 
-RUN bin/console assets:install
-RUN bin/console cache:warmup
-
 ARG APP_ENV=prod
 ENV APP_ENV $APP_ENV
 ARG APP_DEBUG=0
 ENV APP_DEBUG $APP_DEBUG
+
+RUN bin/console assets:install
+RUN bin/console cache:warmup
