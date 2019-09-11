@@ -5,11 +5,11 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
-class RoomInventoryListController extends AbstractController
+class RoomInventoryDashboardController extends AbstractController
 {
     public function __invoke(): Response
     {
-        return $this->render('room_inventory_list.twig', [
+        return $this->render('room_inventory_dashboard.twig', [
             'rooms' => [ // @TODO: get rooms from read model
                 [
                     'id' => 101,

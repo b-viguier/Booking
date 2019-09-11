@@ -8,15 +8,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class CreateRoomController extends AbstractController
+class ChangeRoomTypePriceController extends AbstractController
 {
     public function __invoke(Request $request): Response
     {
         $type = $request->request->getAlnum('type');
-        $id = $request->request->getInt('id');
+        $price = $request->request->getInt('price');
 
         // @TODO: emit event
 
-        return $this->redirectToRoute('room_inventory_dashboard');
+        return $this->redirectToRoute('room_types_dashboard');
     }
 }
