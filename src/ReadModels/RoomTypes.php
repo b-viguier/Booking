@@ -30,6 +30,6 @@ class RoomTypes
             $data[$event->getData()['type']] = $event->getData();
 
             return $data;
-        }, []);
+        }, ['double' => ['type' => 'double', 'price' => 100], 'twin' => ['type' => 'twin', 'price' => 90]]);
     }
 }
