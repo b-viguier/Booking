@@ -22,7 +22,7 @@ class Event
     {
         $this->data = $data;
         $this->type = $type;
-        $this->dateTime = $dateTime;
+        $this->dateTime = $dateTime->format('U');
     }
 
     public function toJson(): array
@@ -30,9 +30,25 @@ class Event
         return $this->data;
     }
 
-    static public function fromJson(array $json): self
+    static public function fromJson(string $type, DateTimeImmutable $dateTime, array $json): self
     {
-        return new self($json);
+        return new self($type, $json, $dateTime);
+    }
+
+    /**
+     * @return string
+     */
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @return DateTimeImmutable
+     */
+    public function getDateTime(): DateTimeImmutable
+    {
+        return DateTimeImmutable::createFromFormat('U', $this->dateTime);
     }
 
     /**

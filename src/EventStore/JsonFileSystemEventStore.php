@@ -6,27 +6,49 @@ class JsonFileSystemEventStore implements EventStore
 {
 
     /** @var string */
-    private $file;
+    private $directory;
 
-    public function __construct(string $file)
+    public function __construct(string $directory)
     {
-        $this->file = $file;
+        $this->directory = $directory;
+        if(!is_dir($this->directory)) {
+            throw new \InvalidArgumentException("[$directory] is NOT a directory");
+        }
     }
 
     public function append(Event $event): void
     {
-        $store = json_decode(file_get_contents($this->file), true);
-        $store[] = $event->toJson();
-        file_put_contents($this->file, json_encode($store));
+        $result = file_put_contents(
+            sprintf(
+                '%s/%s-%s.json',
+                $this->directory,
+                $event->getDateTime()->format('U'),
+                $event->getType()
+            ),
+            json_encode($event->toJson())
+        );
+
+        if($result === false) {
+            throw new \Exception("Failed to append event");
+        }
     }
 
     public function getEvents(): array
     {
-        $store = json_decode(file_get_contents($this->file), true);
-        if($store === null) {
-            throw new \Exception("Impossible to read File");
+        $events = [];
+        foreach(glob($this->directory.'/*.json') as $file) {
+            $filename = basename($file, '.json');
+            [$timestamp, $type] = explode('-', $filename);
+
+
+            $events[] = Event::fromJson(
+                $type,
+                \DateTimeImmutable::createFromFormat('U', $timestamp),
+                json_decode(file_get_contents($file), true)
+            );
         }
-        return array_map([Event::class, 'fromJson'], $store);
+
+        return $events;
     }
 
 }

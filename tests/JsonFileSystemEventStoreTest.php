@@ -7,9 +7,18 @@ use PHPUnit\Framework\TestCase;
 
 class JsonFileSystemEventStoreTest extends TestCase
 {
+    public function tearDown()
+    {
+        parent::tearDown();
+
+        foreach(glob(__DIR__ . '/fixtures/AppendableStore/*.json') as $file) {
+            unlink($file);
+        }
+    }
+
     public function testEventStoreCreatedFromEmptyDirectoryIsEmpty()
     {
-        $eventStore = new \App\EventStore\JsonFileSystemEventStore(__DIR__ . '/fixtures/emptyStore.json');
+        $eventStore = new \App\EventStore\JsonFileSystemEventStore(__DIR__ . '/fixtures/EmptyStore');
 
         $this->assertEmpty(
             $eventStore->getEvents()
@@ -19,14 +28,13 @@ class JsonFileSystemEventStoreTest extends TestCase
 
     public function testShouldAppendEventToStore()
     {
-        $tmpFile = tmpfile();
-        $fileName = stream_get_meta_data($tmpFile)['uri'];
-        file_put_contents($fileName, '{}');
-
-        $eventStore = new \App\EventStore\JsonFileSystemEventStore($fileName);
-        $eventToAppend = new Event([
-            'roomId' => 404
-        ]);
+        $dir = __DIR__ . '/fixtures/AppendableStore';
+        $eventStore = new \App\EventStore\JsonFileSystemEventStore($dir);
+        $eventToAppend = new Event(
+            'room',
+            ['roomId' => 404],
+            new \DateTimeImmutable()
+        );
 
         $eventStore->append($eventToAppend);
         $allEvents = $eventStore->getEvents();
@@ -39,7 +47,7 @@ class JsonFileSystemEventStoreTest extends TestCase
         );
     }
 
-    public function testShouldEventsBeSorted()
+    public function _testShouldEventsBeSorted()
     {
         $tmpFile = tmpfile();
         $fileName = stream_get_meta_data($tmpFile)['uri'];
