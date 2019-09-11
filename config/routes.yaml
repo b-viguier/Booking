@@ -1,3 +1,11 @@
 app_hello:
     path: /
     controller: App\Controller\HelloController
+
+room_inventory_list:
+    path: /room-inventory-list
+    controller: App\Controller\RoomInventoryListController
+
+create_room:
+    path: /create_room
+    controller: App\Controller\CreateRoomController
