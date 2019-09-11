@@ -7,9 +7,11 @@ use DateTimeImmutable;
 
 class RoomAddedToInventory extends Event
 {
+    const eventType = 'RoomAddedToInventory';
+
     public function __construct(int $roomId, string $roomType, DateTimeImmutable $dateTime)
     {
-        parent::__construct('RoomAddedToInventory', [
+        parent::__construct(self::eventType, [
             'id' => $roomId,
             'type' => $roomType,
         ], $dateTime);

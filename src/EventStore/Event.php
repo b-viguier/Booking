@@ -34,4 +34,20 @@ class Event
     {
         return new self($json);
     }
+
+    /**
+     * @return string
+     */
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @return array
+     */
+    public function getData(): array
+    {
+        return $this->data;
+    }
 }
